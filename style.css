@@ -1,0 +1,118 @@
+body {
+    /*background: #eeebeb;*/
+    background:url('img/jucy.jpeg');
+    background-repeat: repeat-x;
+    width: 100%;
+    display: inline-block;
+}
+
+.head1 {
+    text-align: center;
+    color: #005252;
+    font-weight: bolder;
+}
+
+.list {
+    list-style-type: none;
+}
+.btn1{
+    padding: 5.3px 12px;
+}
+.kubwa {
+    display: inline-block;
+    margin: 0% 2%;
+    width: 96%;
+    align-content: center;
+}
+
+#row {
+    color: #000000;
+    font-size: 21px;
+    display: inline-block;
+    align-content: center;
+    margin: 1% 2%;
+    width: 96%;
+    border-radius: 5px;
+}
+
+.main {
+    display: inline-block;
+    border-radius: 5px;
+    background: #e2e9e900;
+}
+
+#food_name,
+#price,
+#buy {
+    margin: 1% 0%;
+    padding: 2px 1px;
+}
+
+#food_name {
+    margin: 0.5% 0%;
+    
+}
+
+
+.food {
+    background: #00525241;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    overflow: hidden;
+}
+
+.bei {
+    background: #dbfdfda2;
+    border-radius: 0px;
+    height: inherit;
+    overflow: hidden;
+}
+
+.nunua {
+    background: #e2e9e9c7;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    height: inherit;
+    overflow: hidden;
+}
+#phoneForm, #priceEdit{
+    width: 100%;
+}
+
+.th {
+    color: #005252;
+    font-weight: bolder;
+    font-size: 25px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 3% 12%;
+}
+#buy{
+    display: none;
+}
+#go{
+    float: right;
+}
+#got{
+    float: left;
+}
+.cow{
+    background: yellow;
+}
+.buying{
+    background: #0052524f;
+}
+.buying-header{
+    background: #005252;
+}
+.buying-th{
+    font-weight: bolder;
+    color: #97c0c0;
+    font-size: 25px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 3% 12%;
+}
+.buying-footer{
+    background: #005252e0;
+}
