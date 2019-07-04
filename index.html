@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Mtugo Meals</title>
+
+  </head>
+
+  <body>
+
+    <div id="wrapper" class="kubwa">
+      <h1 class="head1">MTUGO MEALS</h1>
+      <div class="row" id="row">
+        <div class="col-sm-12 main">
+          <div id="foody" class="col-sm-6 food">
+            <h4 class="th">Food</h4>
+          </div>
+
+          <div id="cost" class="col-sm-6 bei" onclick="">
+            <h4 class="th">Price</h4>
+          </div>
+        </div>
+      </div>
+
+      <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content catch ">
+            <div class="modal-header buying-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="buying-th modal-title">BUY THIS MEAL</h4>
+            </div>
+            <div class="modal-body buying">
+              <div class="alert alert-success" id="purchaseAlertSuccess" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>Successfully recorded transaction. Waiting Payment</p>
+              </div>
+              <div class="alert alert-danger" id="purchaseAlertDanger" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>Error committing transaction. Enter Correct Mobile Number eg. 254726123456</p>
+              </div>
+              <div class="alert alert-success" id="purchaseAlertSuccessMpesa" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>Successfully completed Mpesa transaction</p>
+              </div>
+              <div class="alert alert-danger" id="purchaseAlertDangerMpesa" style="display: none">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>Error finishing Mpesa transaction. Try again after sometime</p>
+              </div>
+              <form role="form" action="try.php" method="POST" id="selectform">
+                <div id="pricediv">
+                  <!--label>Price:</label>
+                  <input name="id" id="price" class="form-control" readonly-->
+                </div>
+                <div>
+                  <label>Phone Number:</label>
+                  <input id="phoneForm" class="form-control" name="phone_number" placeholder="254 xxxxxxxxx"
+                    type="number">
+                </div>
+            </div>
+            <div class="modal-footer buying-footer">
+              <button id="go" class="btn btn1 btn-success">BUY</button>
+              <button id="got" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    function populateFoods(url, div) {
+    $.ajax({
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+            $.each(data.data, function (i, single) {
+                div.append(
+                    '<div style="border: 2px solid #005252;padding: 10px;border-radius-right: 15px; border-right-style: none; height: 67px;" class="" id="food_name" value="' + single.id + '">' + single.name + '</div>'
+                );
+            });
+        }
+    });
+}
+
+function populatePrices(url, div) {
+    $.ajax({
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+            $.each(data.data, function (i, single) {
+                var id = single.id;
+                var Amount = single.Amount;
+                var i = 0;
+                i++;
+                var name = single.name;
+                div.append(
+                    '<div style="border: 2px solid #005252; padding: 10px;border-radius-right: 8px; border-left-style: none; height: 65px; " id="price" name="food_id" value="' + id + '"><div style="margin-left:10%;">' + Amount + '/- <button style="float: right; margin-right:20%;" id="select' + i + '" onclick="payNow()" type="submit" class="btn btn-success" data-toggle="modal" data-target="#myModal" onclick ="$("#yourModal").modal({"backdrop": "static"});" value="' + id + '">SELECT THIS MEAL</button></div></div>'
+                );
+
+            });
+        }
+    });
+}
+function payNow() {
+    var n = 0;
+    n++;
+    var id = event.target.id;
+    var val = event.target.value;
+    $.getJSON('http://localhost/php_mpesa_stk_push/api/food/read.php?id=' + val, function (food) {
+        $('#pricediv').append('<label>Food: </label><input id="food_name" name="food_name" class="form-control" value="'
+            + food.name + '" readonly></div>    <div style="visibility:hidden;"><input name="food_id" id="food_id" class="form-control" value="'
+            + food.id + '" readonly></input></div><label>Price: </label><input id="food_price" name="Amount" class="form-control" value="'
+            + food.Amount + '" readonly></div>');
+    });
+/*
+    $('#myModal').on('hidden.bs.modal', function () {
+        $(this)
+            .find("input,textarea,select")
+            .val('')
+            .end();
+    })
+*/
+
+    $("#phoneForm").val('');
+    
+    //$("#food_name").val('');
+    //$("#food_id").val('');
+    //$("food_price").val('');
+
+
+}
+
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $("#selectform").submit(function () {
+
+        $.ajax({
+
+            url: 'http://localhost/php_mpesa_stk_push/api/payment/lipa.php',
+            type: 'POST',
+            data: $('#selectform').serialize(), //serialize input
+            success: function (data) {
+                $('#purchaseAlertSuccess').css("display", "block");
+
+            },
+            error: function (data) {
+                $('#purchaseAlertDangerMpesa').css("display", "block");
+                $('#purchaseAlertSuccess').css("display", "none");
+
+                window.setTimeout(function () {
+
+                    // Move to a new location or you can do something else
+                    window.location.href = "http://localhost/php_mpesa_stk_push/";
+
+                }, 5000);
+                return false;
+
+
+            }
+
+
+        });
+
+        //event.preventDefault();
+        $.ajax({
+
+            url: 'http://localhost/php_mpesa_stk_push/api/purchases/create.php',
+            type: 'POST',
+            data: $('#selectform').serialize(), //serialize input
+            success: function (data) {
+                $('#purchaseAlertSuccess').css("display", "block");
+                $('#purchaseAlertSuccessMpesa').css("display", "none");
+
+
+                window.setTimeout(function () {
+
+                    // Move to a new location or you can do something else
+                    window.location.href = "http://localhost/php_mpesa_stk_push/";
+
+                }, 5000);
+
+
+            },
+            error: function (data) {
+                $('#purchaseAlertDanger').css("display", "block");
+                return false;
+            }
+
+        });
+
+        return false;
+
+    });
+
+    $(function () {
+        // when the modal is closed
+        $('#myModal').on('hidden.bs.modal', function () {
+            // remove the bs.modal data attribute from it
+            $(this).removeData('bs.modal');
+            // and empty the modal-content element
+            $('#pricediv').empty();
+        });
+    });
+
+    populatePrices('http://localhost/php_mpesa_stk_push/api/food/read.php', $('#cost'));
+    populateFoods('http://localhost/php_mpesa_stk_push/api/food/read.php', $('#foody'));
+
+});
+
+  </script>
+
+</html>
