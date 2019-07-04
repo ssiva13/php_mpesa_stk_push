@@ -23,7 +23,8 @@ $password = base64_encode($passwordstring);
 // get the callback url
 
 //$CallBackURL = "http://localhost/mpesa/callback/callback.php";
-$CallBackURL = "https://crime-lex.org/database/callback.php";
+// $CallBackURL = "https://crime-lex.org/database/callback.php";
+$CallBackURL = "http://requestbin.fullcontact.com/16txems1";
 //$data = json_decode(file_get_contents("php://input"));
 
 //get
